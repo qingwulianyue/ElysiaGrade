@@ -1,0 +1,6 @@
+name: ElysiaGrade
+version: '${project.version}'
+main: main.elysiagrade.ElysiaGrade
+commands:
+  ElysiaGrade:
+    permission: admin

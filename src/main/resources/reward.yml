@@ -1,0 +1,5 @@
+2:
+  - "[message]§a恭喜 %player% 升至等级2"
+10:
+  - "[console]mm i give %player% 等级10奖励"
+  - "[message]§a恭喜 %player% 升至等级10"

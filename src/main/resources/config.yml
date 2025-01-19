@@ -1,0 +1,14 @@
+debug: true
+prefix: "§6[玩家等级]"
+type: "formula"
+experience: level * 100
+defaultLevel: 1
+save_timer: 300
+save_tips: true
+messages:
+  level_up: "§a升到了 §b%level% §a级"
+  get_experience: "§a获得 §b%experience% §a经验"
+  level_reset: "§a等级重置"
+monsters:
+  测试怪物: 1
+
