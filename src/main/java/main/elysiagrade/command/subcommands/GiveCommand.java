@@ -5,7 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+/**
+ * 给予玩家经验值命令
+ **/
 public class GiveCommand {
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 3) {
