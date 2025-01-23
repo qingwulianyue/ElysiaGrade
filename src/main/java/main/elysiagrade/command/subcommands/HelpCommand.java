@@ -2,6 +2,9 @@ package main.elysiagrade.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
+/**
+ * 显示命令提示命令
+ **/
 public class HelpCommand {
     public void execute(CommandSender sender, String[] args) {
         if (args.length == 1) {
