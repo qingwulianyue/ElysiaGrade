@@ -1,9 +1,6 @@
 package main.elysiagrade.command;
 
-import main.elysiagrade.command.subcommands.GiveCommand;
-import main.elysiagrade.command.subcommands.HelpCommand;
-import main.elysiagrade.command.subcommands.ReloadCommand;
-import main.elysiagrade.command.subcommands.ResetCommand;
+import main.elysiagrade.command.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,6 +22,9 @@ public class CommandManager implements CommandExecutor {
                 return true;
             case "reset":
                 new ResetCommand().execute(commandSender, strings);
+                return true;
+            case "set":
+                new SetCommand().execute(commandSender, strings);
                 return true;
             default:
                 new HelpCommand().execute(commandSender, strings);

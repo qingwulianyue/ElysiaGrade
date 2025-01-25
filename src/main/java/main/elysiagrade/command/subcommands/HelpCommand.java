@@ -12,6 +12,7 @@ public class HelpCommand {
             sender.sendMessage("/ElysiaGrade reload   -   重载插件");
             sender.sendMessage("/ElysiaGrade give {player} {exp}   -   给予玩家经验");
             sender.sendMessage("/ElysiaGrade reset {player}   -   重置玩家等级");
+            sender.sendMessage("/ElysiaGrade set {player} {level}   -   重置玩家等级");
         }
     }
 }
