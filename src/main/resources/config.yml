@@ -1,7 +1,11 @@
 debug: true
 prefix: "§6[玩家等级]"
 type: "formula"
-experience: level * 100
+experience:
+  1-30: 500 + ( ( level - 1 ) * 200 )
+  31-40: 500 + ( ( level - 1 ) * 400 )
+  41: 500 + ( ( level - 1 ) * 600 )
+daily_experience: 30000
 defaultLevel: 1
 save_timer: 300
 save_tips: true
@@ -9,6 +13,7 @@ messages:
   level_up: "§a升到了 §b%level% §a级"
   get_experience: "§a获得 §b%experience% §a经验"
   level_reset: "§a等级重置"
+  experience_max: "§a今日获取经验已满"
 monsters:
   测试怪物: 1
 

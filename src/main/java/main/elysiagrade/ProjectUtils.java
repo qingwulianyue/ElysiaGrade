@@ -6,6 +6,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 /**
@@ -37,9 +38,11 @@ public class ProjectUtils {
             //计算当前等级最大经验值
             if (ElysiaGrade.getConfigManager().getConfigData().getType().equals("formula")){
                 //获取经验计算公式
-                String formula = ElysiaGrade.getConfigManager().getConfigData().getExperience().replaceAll("level", String.valueOf(level));
+                String formula = getExperienceFormula(level);
                 //计算最大经验值
-                maxExperience = new ExpressionBuilder(formula).build().evaluate();
+                if (formula != null) {
+                    maxExperience = new ExpressionBuilder(formula).build().evaluate();
+                }
             }
             //计算等级升级
             if (nowExperience + experience >= maxExperience) {
@@ -81,5 +84,17 @@ public class ProjectUtils {
             command = command.replace("[message]", "");
             Bukkit.getPlayer(uuid).sendMessage(command.replaceAll("%player%", Bukkit.getPlayer(uuid).getName()));
         }
+    }
+    public static String getExperienceFormula(int level){
+        HashMap<String, String> experience = ElysiaGrade.getConfigManager().getConfigData().getExperience();
+        for (String key : experience.keySet()){
+            if(key.contains("-")){
+                String[] split = key.split("-");
+                if (level >= Integer.parseInt(split[0]) && level <= Integer.parseInt(split[1]))
+                    return experience.get(key).replaceAll("level", String.valueOf(level));
+            } else if (level >= Integer.parseInt(key))
+                return experience.get(key).replaceAll("level", String.valueOf(level));
+        }
+        return null;
     }
 }

@@ -6,13 +6,13 @@ public class ConfigData {
     private final boolean debug;
     private final String prefix;
     private final String type;
-    private final String experience;
+    private final HashMap<String, String> experience;
     private final int defaultLevel;
     private final int save_timer;
     private final boolean save_tips;
     private final HashMap<String, String> messages;
     private final HashMap<String, Integer> monsters;
-    public ConfigData(boolean debug, String prefix, String type, String experience, int defaultLevel, int save_timer, boolean save_tips, HashMap<String, String> messages, HashMap<String, Integer> monsters) {
+    public ConfigData(boolean debug, String prefix, String type, HashMap<String, String> experience, int defaultLevel, int save_timer, boolean save_tips, HashMap<String, String> messages, HashMap<String, Integer> monsters) {
         this.debug = debug;
         this.prefix = prefix;
         this.type = type;
@@ -36,7 +36,7 @@ public class ConfigData {
         return type;
     }
 
-    public String getExperience() {
+    public HashMap<String, String> getExperience() {
         return experience;
     }
 

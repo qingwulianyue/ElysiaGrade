@@ -1,6 +1,7 @@
 package main.elysiagrade.hook;
 
 import main.elysiagrade.ElysiaGrade;
+import main.elysiagrade.ProjectUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.entity.Player;
@@ -41,8 +42,11 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
     }
     private String getMaxExp(Player player) {
         int level = ElysiaGrade.getPlayerManager().getPlayerData(player.getUniqueId()).getLevel();
-        String formula = ElysiaGrade.getConfigManager().getConfigData().getExperience().replaceAll("level", String.valueOf(level));
-        double maxExperience = new ExpressionBuilder(formula).build().evaluate();
+        String formula = ProjectUtils.getExperienceFormula(level);
+        double maxExperience = 0;
+        if (formula != null) {
+            maxExperience = new ExpressionBuilder(formula).build().evaluate();
+        }
         return String.valueOf(maxExperience);
     }
 }
