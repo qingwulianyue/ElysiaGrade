@@ -24,34 +24,35 @@ public class ProjectUtils {
         Player player = Bukkit.getPlayer(uuid);
         PlayerManager playerManager = ElysiaGrade.getPlayerManager();
         PlayerData playerData = playerManager.getPlayerData(uuid);
-        String playerName = player.getName();
-        if (playerData == null){
-            ElysiaGrade.getPlugin(ElysiaGrade.class).getLogger().info("§c玩家 " + playerName + " 的数据不存在，请使用 /elysia grade reset " + playerName + " 重置数据");
-            return;
-        }
+        double playerDailyExperience = playerData.getDaily_experience();
+        double dailyExperience = ElysiaGrade.getConfigManager().getConfigData().getDaily_experience();
+        //当该经验值为命令强制给予时
         if (command){
             player.sendMessage(
                     ElysiaGrade.getConfigManager().getConfigData().getPrefix() +
                             ElysiaGrade.getConfigManager().getConfigData().getMessages().get("get_experience").replaceAll("%experience%", String.valueOf(experience))
             );
             addExperience(playerData, uuid, experience);
-        } else if (playerData.getDaily_experience() >= ElysiaGrade.getConfigManager().getConfigData().getDaily_experience()) {
+        //当玩家当日获取经验值大于最大获取经验值时
+        } else if (playerDailyExperience >= dailyExperience) {
             player.sendMessage(
                     ElysiaGrade.getConfigManager().getConfigData().getPrefix() +
                             ElysiaGrade.getConfigManager().getConfigData().getMessages().get("experience_max")
             );
-        } else if (playerData.getDaily_experience() + experience <= ElysiaGrade.getConfigManager().getConfigData().getDaily_experience()){
+        //当玩家获取经验值后未超过最大经验值时，全额给予经验值
+        } else if (playerDailyExperience + experience <= dailyExperience){
             player.sendMessage(
                     ElysiaGrade.getConfigManager().getConfigData().getPrefix() +
                             ElysiaGrade.getConfigManager().getConfigData().getMessages().get("get_experience").replaceAll("%experience%", String.valueOf(experience))
             );
             addExperience(playerData, uuid, experience);
-        } else if (playerData.getDaily_experience() + experience > ElysiaGrade.getConfigManager().getConfigData().getDaily_experience()) {
+        //当玩家获取经验值后超过最大经验值时，部分给予经验值
+        } else if (playerDailyExperience + experience > dailyExperience) {
             player.sendMessage(
                     ElysiaGrade.getConfigManager().getConfigData().getPrefix() +
                             ElysiaGrade.getConfigManager().getConfigData().getMessages().get("get_experience").replaceAll("%experience%", String.valueOf(ElysiaGrade.getConfigManager().getConfigData().getDaily_experience() - playerData.getDaily_experience()))
             );
-            addExperience(playerData, uuid, (int) (ElysiaGrade.getConfigManager().getConfigData().getDaily_experience() - playerData.getDaily_experience()));
+            addExperience(playerData, uuid, (int) (dailyExperience - playerDailyExperience));
         }
     }
     /**
@@ -118,12 +119,15 @@ public class ProjectUtils {
                             ElysiaGrade.getConfigManager().getConfigData().getMessages().get("level_up").replaceAll("%level%", String.valueOf(level))
             );
             giveReward(uuid, level);
+            //更新玩家数据，更新玩家的等级，当日累计经验值并且将当前经验值清零
             PlayerData newPlayerData = new PlayerData(level, 0, Math.min(playerData.getDaily_experience() + maxExperience - nowExperience, ElysiaGrade.getConfigManager().getConfigData().getDaily_experience()), LocalDate.now());
             playerManager.setPlayerData(uuid, newPlayerData);
+            //为玩家增加升级后剩余的经验值
             addExperience(newPlayerData, uuid, (int) (experience - (maxExperience - nowExperience)));
         } else {
             //等级未升级
             newExperience = nowExperience + experience;
+            //更新玩家数据，更新玩家的当日累计经验值
             playerManager.setPlayerData(uuid, new PlayerData(level, newExperience, Math.min(playerData.getDaily_experience() + experience, ElysiaGrade.getConfigManager().getConfigData().getDaily_experience()), LocalDate.now()));
         }
     }
