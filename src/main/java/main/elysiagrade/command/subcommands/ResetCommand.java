@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class ResetCommand {
@@ -22,7 +23,7 @@ public class ResetCommand {
         Player player = Bukkit.getPlayer(playerName);
         UUID uuid = player.getUniqueId();
         PlayerManager playerManager = ElysiaGrade.getPlayerManager();
-        PlayerData playerData = new PlayerData(ElysiaGrade.getConfigManager().getConfigData().getDefaultLevel(), 0);
+        PlayerData playerData = new PlayerData(ElysiaGrade.getConfigManager().getConfigData().getDefaultLevel(), 0, 0, LocalDate.now());
         playerManager.setPlayerData(uuid, playerData);
         player.sendMessage(ElysiaGrade.getConfigManager().getConfigData().getPrefix() + ElysiaGrade.getConfigManager().getConfigData().getMessages().get("level_reset"));
     }

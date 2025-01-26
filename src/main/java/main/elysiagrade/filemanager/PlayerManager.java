@@ -9,17 +9,20 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerManager {
     private PlayerManager() {plugin = ElysiaGrade.getPlugin(ElysiaGrade.class);}
-    private static PlayerManager instance = new PlayerManager();
+    private final static PlayerManager instance = new PlayerManager();
     public static PlayerManager getInstance() {
         return instance;
     }
-    private HashMap<UUID, PlayerData> playerDataHashMap = new HashMap<>();
+    private final HashMap<UUID, PlayerData> playerDataHashMap = new HashMap<>();
     private final ElysiaGrade plugin;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public PlayerData getPlayerData(UUID uuid) {
         if (playerDataHashMap.containsKey(uuid)) {
             return playerDataHashMap.get(uuid);
@@ -33,6 +36,7 @@ public class PlayerManager {
         findAllYmlFiles(new File(plugin.getDataFolder() + "/PlayerData"));
     }
     public void savePlayerData() {
+
         for(UUID uuid : playerDataHashMap.keySet()){
             Path playerDataPath = plugin.getDataFolder().toPath().resolve("PlayerData").resolve(uuid.toString() + ".yml");
             try {
@@ -41,6 +45,8 @@ public class PlayerManager {
                 yamlConfiguration.set("uuid", uuid.toString());
                 yamlConfiguration.set("level", playerDataHashMap.get(uuid).getLevel());
                 yamlConfiguration.set("experience", playerDataHashMap.get(uuid).getExperience());
+                yamlConfiguration.set("daily_experience", playerDataHashMap.get(uuid).getDaily_experience());
+                yamlConfiguration.set("update_time", playerDataHashMap.get(uuid).getUpdate_time().format(formatter));
                 try {
                     yamlConfiguration.save(playerDataPath.toFile());
                 } catch (IOException e) {
@@ -70,7 +76,9 @@ public class PlayerManager {
     private void loadPlayerData(YamlConfiguration config) {
         PlayerData playerData = new PlayerData(
                 config.getInt("level"),
-                config.getDouble("experience")
+                config.getDouble("experience"),
+                config.getDouble("daily_experience"),
+                LocalDate.parse(config.getString("update_time"), formatter)
         );
         playerDataHashMap.put(UUID.fromString(config.getString("uuid")), playerData);
     }

@@ -21,15 +21,19 @@ public class ConfigManager {
         FileConfiguration config = plugin.getConfig();
         HashMap<String, String> messages = new HashMap<>();
         HashMap<String, Integer> monsters = new HashMap<>();
+        HashMap<String, String> experience = new HashMap<>();
         for (String key : config.getConfigurationSection("messages").getKeys(false))
             messages.put(key, config.getString("messages." + key));
         for (String key : config.getConfigurationSection("monsters").getKeys(false))
             monsters.put(key, config.getInt("monsters." + key));
+        for (String key : config.getConfigurationSection("experience").getKeys(false))
+            experience.put(key, config.getString("experience." + key));
         configData = new ConfigData(
                 config.getBoolean("debug"),
                 config.getString("prefix"),
                 config.getString("type"),
-                config.getString("experience"),
+                experience,
+                config.getInt("daily_experience"),
                 config.getInt("defaultLevel"),
                 config.getInt("save_timer"),
                 config.getBoolean("save_tips"),
@@ -43,7 +47,10 @@ public class ConfigManager {
             plugin.getLogger().info("§eDebug: §a" + configData.isDebug());
             plugin.getLogger().info("§ePrefix: §a" + configData.getPrefix());
             plugin.getLogger().info("§eType: §a" + configData.getType());
-            plugin.getLogger().info("§eExperience: §a" + configData.getExperience());
+            plugin.getLogger().info("§eExperience:");
+            for (String key : configData.getExperience().keySet())
+                plugin.getLogger().info("§e" + key + ": §a" + configData.getMessages().get(key));
+            plugin.getLogger().info("§eDaily Experience: §a" + configData.getDaily_experience());
             plugin.getLogger().info("§eDefault Level: §a" + configData.getDefaultLevel());
             plugin.getLogger().info("§eSave Timer: §a" + configData.getSaveTimer());
             plugin.getLogger().info("§eSave Tips: §a" + configData.isSaveTips());
