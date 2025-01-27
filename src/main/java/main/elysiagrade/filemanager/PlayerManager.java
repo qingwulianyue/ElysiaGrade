@@ -66,8 +66,8 @@ public class PlayerManager {
                     findAllYmlFiles(file);
                 } else if (file.getName().endsWith(".yml")) {
                     // 如果是YML文件则加入结果列表
-                    File playerDayaFolder = new File(folder + "/" + file.getName());
-                    YamlConfiguration config = YamlConfiguration.loadConfiguration(playerDayaFolder);
+                    File playerDataFolder = new File(folder + "/" + file.getName());
+                    YamlConfiguration config = YamlConfiguration.loadConfiguration(playerDataFolder);
                     loadPlayerData(config);
                 }
             }

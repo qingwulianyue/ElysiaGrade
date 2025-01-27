@@ -28,6 +28,10 @@ public class CommandTabComplete implements TabCompleter {
                 for (Player player : Bukkit.getOnlinePlayers())
                     subCommands.add(player.getName());
             }
+            else if (strings[0].equalsIgnoreCase("set")) {
+                for (Player player : Bukkit.getOnlinePlayers())
+                    subCommands.add(player.getName());
+            }
         }
         return subCommands;
     }
