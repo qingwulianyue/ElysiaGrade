@@ -99,7 +99,7 @@ public final class ElysiaGrade extends JavaPlugin {
                     getLogger().info("§e开始保存玩家数据");
                 playerManager.savePlayerData();
             }
-        }.runTaskTimer(this, 0L, ticks);
+        }.runTaskTimerAsynchronously(this, 0L, ticks);
     }
     private void checkDepend(){
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
