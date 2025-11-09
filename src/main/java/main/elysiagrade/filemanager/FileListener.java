@@ -9,6 +9,9 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 文件监听器
+ */
 public class FileListener {
     private static final long POLL_INTERVAL = TimeUnit.SECONDS.toMillis(1);
     public static void startWatching(File rootDir) {
@@ -29,7 +32,7 @@ public class FileListener {
         try {
             monitor.start();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

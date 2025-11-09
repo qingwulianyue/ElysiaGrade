@@ -7,20 +7,22 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 等级奖励管理器
+ **/
 public class RewardManager {
     private RewardManager(){}
-    private static RewardManager instance = new RewardManager();
+    private static final RewardManager instance = new RewardManager();
     public static RewardManager getInstance(){
         return instance;
     }
-    private HashMap<Integer, List<String>> reward = new HashMap<>();
+    private final HashMap<Integer, List<String>> reward = new HashMap<>();
     public void loadReward(){
         reward.clear();
         File file = new File(ElysiaGrade.getPlugin(ElysiaGrade.class).getDataFolder() + "/reward.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        for (String key : config.getKeys(false)) {
+        for (String key : config.getKeys(false))
             reward.put(Integer.parseInt(key), config.getStringList(key));
-        }
         logRewardInfoIfDebug();
     }
     private void logRewardInfoIfDebug(){
@@ -28,9 +30,8 @@ public class RewardManager {
         if (ElysiaGrade.getConfigManager().getConfigData().isDebug()){
             for (Integer key : reward.keySet()){
                 plugin.getLogger().info("§e等级 " + key + " 的奖励为：");
-                for (String s : reward.get(key)){
+                for (String s : reward.get(key))
                     plugin.getLogger().info("§a" + s);
-                }
             }
         }
     }

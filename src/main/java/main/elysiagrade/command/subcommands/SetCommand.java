@@ -13,8 +13,7 @@ public class SetCommand {
         if (args.length == 3) {
             String playerName = args[1];
             PlayerManager playerManager = ElysiaGrade.getPlayerManager();
-            PlayerData playerData = playerManager.getPlayerData(Bukkit.getPlayer(playerName).getUniqueId());
-            playerManager.setPlayerData(Bukkit.getPlayer(playerName).getUniqueId(), new PlayerData(Integer.parseInt(args[2]), 0, playerData.getDaily_experience(), LocalDate.now()));
+            playerManager.setPlayerData(Bukkit.getPlayer(playerName).getUniqueId(), new PlayerData(Integer.parseInt(args[2]), 0));
         }
     }
 }

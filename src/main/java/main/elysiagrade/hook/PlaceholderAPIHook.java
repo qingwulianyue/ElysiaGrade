@@ -5,14 +5,16 @@ import main.elysiagrade.ProjectUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * papi变量注册
+ **/
 public class PlaceholderAPIHook extends PlaceholderExpansion {
     /**
      * %ElysiaGrade_level%:玩家的当前等级
      * %ElysiaGrade_exp%:玩家的当前经验值
      * %ElysiaGrade_maxExp%:玩家的当前等级对应的最大经验值
-     * %ElysiaGrade_dailyExp%:玩家当前累计的每日经验值
-     * %ElysiaGrade_dailyMaxExp%:每日能够获取的最大经验值
      **/
     @Override
     public @org.jetbrains.annotations.NotNull String getIdentifier() {
@@ -29,13 +31,13 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         return ElysiaGrade.getPlugin(ElysiaGrade.class).getDescription().getVersion();
     }
     @Override
-    public String onPlaceholderRequest(Player player, String params) {
-        if (player == null || params == null || params.isEmpty()) return null;
-        if (params.equals("level")) return getLevel(player);
-        if (params.equals("exp")) return getExp(player);
-        if (params.equals("maxExp")) return getMaxExp(player);
-        if (params.equals("dailyExp")) return getDailyExp(player);
-        if (params.equals("dailyMaxExp")) return getDailyMaxExp(player);
+    public String onPlaceholderRequest(Player player, @NotNull String params) {
+        if (player == null || params.isEmpty()) return null;
+        switch (params) {
+            case "level": return getLevel(player);
+            case "exp": return getExp(player);
+            case "maxExp": return getMaxExp(player);
+        }
         return null;
     }
     private String getLevel(Player player) {
@@ -52,11 +54,5 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             maxExperience = new ExpressionBuilder(formula).build().evaluate();
         }
         return String.valueOf(maxExperience);
-    }
-    private String getDailyExp(Player player) {
-        return String.valueOf(ElysiaGrade.getPlayerManager().getPlayerData(player.getUniqueId()).getDaily_experience());
-    }
-    private String getDailyMaxExp(Player player) {
-        return String.valueOf(ElysiaGrade.getConfigManager().getConfigData().getDaily_experience());
     }
 }

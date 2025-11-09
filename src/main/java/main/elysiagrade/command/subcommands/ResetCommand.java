@@ -23,7 +23,7 @@ public class ResetCommand {
         Player player = Bukkit.getPlayer(playerName);
         UUID uuid = player.getUniqueId();
         PlayerManager playerManager = ElysiaGrade.getPlayerManager();
-        PlayerData playerData = new PlayerData(ElysiaGrade.getConfigManager().getConfigData().getDefaultLevel(), 0, 0, LocalDate.now());
+        PlayerData playerData = new PlayerData(ElysiaGrade.getConfigManager().getConfigData().getDefaultLevel(), 0);
         playerManager.setPlayerData(uuid, playerData);
         player.sendMessage(ElysiaGrade.getConfigManager().getConfigData().getPrefix() + ElysiaGrade.getConfigManager().getConfigData().getMessages().get("level_reset"));
     }

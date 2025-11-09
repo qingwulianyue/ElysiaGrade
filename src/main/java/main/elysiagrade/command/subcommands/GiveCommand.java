@@ -19,6 +19,6 @@ public class GiveCommand {
     }
     private void giveExperience(String playerName, int experience) {
         Player player = Bukkit.getPlayer(playerName);
-        ProjectUtils.giveExperience(player.getUniqueId(), experience, true);
+        ProjectUtils.giveExperience(player.getUniqueId(), experience);
     }
 }

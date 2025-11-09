@@ -5,7 +5,9 @@ import main.elysiagrade.filemanager.data.ConfigData;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
-
+/**
+ * 配置文件管理类
+ */
 public class ConfigManager {
     private ConfigManager(){plugin = ElysiaGrade.getPlugin(ElysiaGrade.class);}
     private static final ConfigManager instance = new ConfigManager();
@@ -15,6 +17,7 @@ public class ConfigManager {
     public ConfigData getConfigData(){return configData;}
     private final ElysiaGrade plugin;
     private ConfigData configData;
+    // 加载配置文件
     public void loadConfig() {
         configData = null;
         plugin.reloadConfig();
@@ -33,15 +36,14 @@ public class ConfigManager {
                 config.getString("prefix"),
                 config.getString("type"),
                 experience,
-                config.getInt("daily_experience"),
                 config.getInt("defaultLevel"),
                 config.getInt("save_timer"),
                 config.getBoolean("save_tips"),
-                messages,
-                monsters
+                messages
         );
         logConfigInfoIfDebug(configData);
     }
+    // 打印配置信息
     private void logConfigInfoIfDebug(ConfigData configData) {
         if (configData.isDebug()) {
             plugin.getLogger().info("§eDebug: §a" + configData.isDebug());
@@ -50,7 +52,6 @@ public class ConfigManager {
             plugin.getLogger().info("§eExperience:");
             for (String key : configData.getExperience().keySet())
                 plugin.getLogger().info("§e" + key + ": §a" + configData.getMessages().get(key));
-            plugin.getLogger().info("§eDaily Experience: §a" + configData.getDaily_experience());
             plugin.getLogger().info("§eDefault Level: §a" + configData.getDefaultLevel());
             plugin.getLogger().info("§eSave Timer: §a" + configData.getSaveTimer());
             plugin.getLogger().info("§eSave Tips: §a" + configData.isSaveTips());
@@ -58,8 +59,6 @@ public class ConfigManager {
             for (String key : configData.getMessages().keySet())
                 plugin.getLogger().info("§e" + key + ": §a" + configData.getMessages().get(key));
             plugin.getLogger().info("§eMonsters:");
-            for (String key : configData.getMonsters().keySet())
-                plugin.getLogger().info("§e" + key + ": §a" + configData.getMonsters().get(key));
         }
     }
 }
